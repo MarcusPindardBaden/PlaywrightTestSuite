@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env: 
+      ENV: "staging"
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -18,7 +20,9 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: $env:ENV="staging" & npx playwright test
+      run: |
+        echo "The ENV is ${{ env.ENV }}"
+        npx playwright test
     - uses: actions/upload-artifact@v4
       if: always()
       with:
